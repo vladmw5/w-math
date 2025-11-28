@@ -1,0 +1,40 @@
+name: CI
+on:
+  push:
+    branches:
+      - "**"
+
+env:
+  TURBO_TELEMETRY_DISABLED: "1"
+
+jobs:
+  lint-and-build:
+    name: Lint & Build (affected)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    env:
+      TURBO_BASE: ${{ github.event.before || 'origin/main' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Resolve turbo base
+        run: |
+          if [ "${TURBO_BASE}" = "0000000000000000000000000000000000000000" ] || [ -z "${TURBO_BASE}" ]; then
+            echo "TURBO_BASE=origin/main" >> "$GITHUB_ENV"
+          else
+            echo "TURBO_BASE=${TURBO_BASE}" >> "$GITHUB_ENV"
+          fi
+      - name: Lint changed packages
+        run: pnpm turbo run lint --filter=...[${TURBO_BASE}]
+      - name: Build changed packages
+        run: pnpm turbo run build --filter=...[${TURBO_BASE}]
