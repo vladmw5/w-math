@@ -9,10 +9,12 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsup src/index.ts --format cjs,esm --dts",
-    "lint": "eslint \"src/**/*.{ts,tsx}\"",
+    "lint": "tsc && eslint \"src/**/*.{ts,tsx}\"",
     "test": "vitest"
   },
   "devDependencies": {
-    "tsup": "^8.5.1"
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "@w-math/typescript-config": "workspace:*"
   }
 }

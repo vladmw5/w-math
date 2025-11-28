@@ -1,5 +1,5 @@
 {
-  "extends": "../typescript-config/base.json",
+  "extends": "@w-math/typescript-config/base.json",
   "compilerOptions": {
     "outDir": "dist"
   },
