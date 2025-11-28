@@ -12,9 +12,16 @@
     "lint": "tsc && eslint \"src/**/*.{ts,tsx}\"",
     "test": "vitest"
   },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
+    "@changesets/cli": "^2.29.8",
+    "@w-math/typescript-config": "workspace:*",
     "tsup": "^8.5.1",
-    "typescript": "^5.9.3",
-    "@w-math/typescript-config": "workspace:*"
+    "typescript": "^5.9.3"
   }
 }
